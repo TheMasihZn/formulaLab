@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=0.5, maximum-scale=10, user-scalable=yes">
+<link rel="stylesheet" href="katex/katex.min.css">
+<script src="katex/katex.min.js"></script>
+<style>
+  html, body { margin: 0; background: #000; color: #fff; }
+  #out { padding: 24px 12px; font-size: 28px; overflow-x: auto; }
+  #out > div { margin: 10px 0; }
+  #out .katex-display { margin: 0; }
+  #err { color: #F6C453; font: 14px monospace; padding: 0 12px 16px; white-space: pre-wrap; }
+  #empty { color: #5a6b6a; font: 16px sans-serif; padding: 24px 12px; }
+</style>
+</head>
+<body>
+<div id="out"><div id="empty">Type LaTeX above, or open a file whose name is a formula.</div></div>
+<div id="err"></div>
+<script>
+  // Called from Java: show("line 1\nline 2"). Each non-empty line is one formula.
+  function show(tex) {
+    var out = document.getElementById('out');
+    var err = document.getElementById('err');
+    out.innerHTML = '';
+    err.textContent = '';
+    var lines = String(tex).split(/\r?\n/).filter(function (l) { return l.trim() !== ''; });
+    if (!lines.length) {
+      out.innerHTML = '<div id="empty">Type LaTeX above, or open a file whose name is a formula.</div>';
+      return;
+    }
+    lines.forEach(function (line) {
+      var box = document.createElement('div');
+      out.appendChild(box);
+      try {
+        katex.render(line, box, { displayMode: true, throwOnError: true, strict: false });
+      } catch (e) {
+        box.textContent = line;
+        err.textContent += e.message + '\n';
+      }
+    });
+  }
+</script>
+</body>
+</html>
