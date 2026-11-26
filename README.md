@@ -6,6 +6,16 @@
 
 Part of Masih's OS (Hearth). It starts as a standalone Android app for testing and becomes an OS feature later.
 
+## Built so far: LaTeX renderer (Java)
+
+- **Offline renderer.** KaTeX 0.16.9 is bundled in `app/src/main/assets/katex`. Each line is rendered as its own formula, and pinch-to-zoom works.
+- **A file name is a formula.** "Open with formulaLab" on any file renders its **name** as LaTeX. The app removes a trailing `.latex`, `.tex`, `.formula`, `.reading` or `.txt` suffix, plus any version numbers after it. File systems don't allow `/`, and some refuse `\`, so write `⧵` (U+29F5) for `\` and `∕` (U+2215) for `/`.
+- **Ways in:** the launcher icon (type LaTeX and it renders live), `com.themasihzn.formulalab.RENDER` with the extra `latex`, the link `formulalab://render?latex=…` or `?name=…`, and sharing text into the app.
+- **KOReader home screen:** `koreader/formulalab.koplugin` adds "Render name as formula" to the long-press menu of any file or folder, and "formulaLab: render LaTeX" under Tools. Copy that folder into the KOReader fork's `plugins/` folder.
+- **Build:** every push builds an APK, which you can download from the Actions run. A push to `main` also publishes a release.
+
+Still to build from the prompt below: describe → formula with the LLM, readMath, calculation and plotting, `.formula` history, and Ctrl-type keyboard access.
+
 ---
 
 ## Build prompt
